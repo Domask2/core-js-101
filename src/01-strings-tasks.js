@@ -200,42 +200,43 @@ function extractEmails(str) {
  *
  */
 function getRectangleString(width, height) {
-  let result = '';
+  let str = '';
   for (let i = 0; i < height; i += 1) {
     if (i === 0) {
       for (let j = 0; j < width; j += 1) {
         if (j === 0) {
-          result += '┌';
+          str += '┌';
         } else if (j === width - 1) {
-          result += '┐\n';
+          str += '┐\n';
         } else {
-          result += '─';
+          str += '─';
         }
       }
     } else if (i === height - 1) {
       for (let j = 0; j < width; j += 1) {
         if (j === 0) {
-          result += '└';
+          str += '└';
         } else if (j === width - 1) {
-          result += '┘\n';
+          str += '┘\n';
         } else {
-          result += '─';
+          str += '─';
         }
       }
     } else {
       for (let j = 0; j < width; j += 1) {
         if (j === 0) {
-          result += '│';
+          str += '│';
         } else if (j === width - 1) {
-          result += '│\n';
+          str += '│\n';
         } else {
-          result += ' ';
+          str += ' ';
         }
       }
     }
   }
-  return result;
+  return str;
 }
+
 /**
  * Encode specified string with ROT13 cipher
  * See details:  https://en.wikipedia.org/wiki/ROT13
@@ -252,8 +253,16 @@ function getRectangleString(width, height) {
  *    => 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
  *
  */
-function encodeToRot13(/* str */) {
-  throw new Error('Not implemented');
+function encodeToRot13(str) {
+  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
+  const rot = 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'.split('');
+  return str
+    .split('')
+    .map((element) => {
+      if (letters.indexOf(element) === -1) return element;
+      return rot[letters.findIndex((el) => el === element)];
+    })
+    .join('');
 }
 
 /**
@@ -297,8 +306,10 @@ function isString(/* value */) {
  *   'Q♠' => 50
  *   'K♠' => 51
  */
-function getCardId(/* value */) {
-  throw new Error('Not implemented');
+function getCardId(value) {
+  const cards = ['A♣', '2♣', '3♣', '4♣', '5♣', '6♣', '7♣', '8♣', '9♣', '10♣', 'J♣', 'Q♣', 'K♣', 'A♦', '2♦', '3♦', '4♦', '5♦', '6♦', '7♦', '8♦', '9♦', '10♦', 'J♦', 'Q♦', 'K♦', 'A♥', '2♥', '3♥', '4♥', '5♥', '6♥', '7♥', '8♥', '9♥', '10♥', 'J♥', 'Q♥', 'K♥', 'A♠', '2♠', '3♠', '4♠', '5♠', '6♠', '7♠', '8♠', '9♠', '10♠', 'J♠', 'Q♠', 'K♠'];
+
+  return cards.indexOf(value);
 }
 
 module.exports = {
